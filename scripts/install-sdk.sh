@@ -85,10 +85,11 @@ installGlobalDeps() {
     if ! [[ -f ~/.c9/installed ]]; then
         if [[ $os == "windows" ]]; then
             URL=https://raw.githubusercontent.com/cloud9ide/sdk-deps-win32
+            $DOWNLOAD $URL/master/install.sh | bash
         else
             URL=https://raw.githubusercontent.com/c9/install
+            bash scripts/install.sh
         fi    
-        $DOWNLOAD $URL/master/install.sh | bash
     fi
 }
 
