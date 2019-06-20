@@ -391,15 +391,16 @@ tmux_install(){
 
 collab(){
   echo :Installing Collab Dependencies
-  "$NPM" cache verify
-  "$NPM" install sqlite3@3.1.4
-  "$NPM" install sequelize@2.0.0-beta.0
+  #"$NPM" cache verify
+  "$NPM" install sqlite3@3.1.4 --cache /tmp/empty-cache
+  "$NPM" install sequelize@2.0.0-beta.0 --cache /tmp/empty-cache
   mkdir -p "$C9_DIR"/lib
   cd "$C9_DIR"/lib
   DOWNLOAD https://raw.githubusercontent.com/c9/install/master/packages/sqlite3/linux/sqlite3.tar.gz sqlite3.tar.gz
   tar xzf sqlite3.tar.gz
   rm sqlite3.tar.gz
   ln -sf "$C9_DIR"/lib/sqlite3/sqlite3 "$C9_DIR"/bin/sqlite3
+  rm -rf /tmp/empty-cache
 }
 
 nak(){
