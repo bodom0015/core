@@ -38,8 +38,8 @@ fi
 VERSION=1
 NODE_VERSION=v6.3.1
 NODE_VERSION_ARM_PI=v0.10.28
-NPM="$(which npm)" #$C9_DIR/node/bin/npm
-NODE="$(which node)" #$C9_DIR/node/bin/node
+NPM="$(which npm)"   ##$C9_DIR/node/bin/npm
+NODE="$(which node)"  ##$C9_DIR/node/bin/node
 
 export TMP=$C9_DIR/tmp
 export TMPDIR=$TMP
@@ -267,12 +267,12 @@ node(){
   rm -rf node 
   rm -rf node.tar.gz
   
-  echo :Skipping installing Node $NODE_VERSION... LTS Version detected
+  echo :Installing Node $NODE_VERSION
   
-  #DOWNLOAD https://nodejs.org/dist/"$NODE_VERSION/node-$NODE_VERSION-$1-$2.tar.gz" node.tar.gz
-  #tar xzf node.tar.gz
-  #mv "node-$NODE_VERSION-$1-$2" node
-  #rm -f node.tar.gz
+  DOWNLOAD https://nodejs.org/dist/"$NODE_VERSION/node-$NODE_VERSION-$1-$2.tar.gz" node.tar.gz
+  tar xzf node.tar.gz
+  mv "node-$NODE_VERSION-$1-$2" node
+  rm -f node.tar.gz
 
   # use local npm cache
   "$NPM" config -g set cache  "$C9_DIR/tmp/.npm"
@@ -283,9 +283,9 @@ node(){
 compile_tmux(){
   cd "$C9_DIR"
   echo ":Compiling libevent..."
-  tar xzf libevent-2.0.22-stable.tar.gz
-  rm libevent-2.0.22-stable.tar.gz
-  cd libevent-2.0.22-stable
+  tar xzf libevent-2.1.8-stable.tar.gz
+  rm libevent-2.1.8-stable.tar.gz
+  cd libevent-2.1.8-stable
   echo ":Configuring Libevent"
   ./configure --disable-shared --prefix="$C9_DIR/local"
   echo ":Compiling Libevent"
@@ -323,8 +323,7 @@ tmux_download(){
   echo ":N.B: This will take a while. To speed this up install tmux 2.2 manually on your machine and restart this process."
   
   echo ":Downloading Libevent..."
-  # DOWNLOAD https://raw.githubusercontent.com/c9/install/master/packages/tmux/libevent-2.0.21-stable.tar.gz
-  DOWNLOAD https://github.com/libevent/libevent/releases/download/release-2.0.22-stable/libevent-2.0.22-stable.tar.gz libevent-2.0.22-stable.tar.gz
+  DOWNLOAD https://raw.githubusercontent.com/c9/install/master/packages/tmux/libevent-2.1.8-stable.tar.gz libevent-2.1.8-stable.tar.gz
   echo ":Downloading Ncurses..."
   DOWNLOAD https://github.com/c9/install/raw/master/packages/tmux/ncurses-6.0.tar.gz ncurses-6.0.tar.gz
   echo ":Downloading Tmux..."
@@ -341,7 +340,7 @@ check_tmux_version(){
     return 1
   fi
 
-  if [ "$("$PYTHON" -c "print 1.7<=$tmux_version and $tmux_version <= 2.2")" == "True" ]; then
+  if [ "$("$PYTHON" -c "print 1.7<=$tmux_version")" == "True" ]; then
     return 0
   else
     return 1
